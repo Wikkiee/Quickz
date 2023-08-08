@@ -1,8 +1,8 @@
-import Login from "./pages/Login"
+import AuthenticatePage from "./pages/AuthenticatePage"
 
 const App = ()=> {
   return (
-    <Login/>
+    <AuthenticatePage/>
   )
 }
 
