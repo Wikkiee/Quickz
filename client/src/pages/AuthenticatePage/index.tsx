@@ -5,7 +5,7 @@ import Form from "./FormComponent.tsx"
 import {useState} from "react"
 
 const AuthenticatePage = ()=>{
-    const currentUserName = useRef<String>('')
+    const currentUserName = useRef<HTMLInputElement>(null)
     const [isLoginBlock,setLoginBlock] = useState<Boolean>(true)
     const onClickHandler = ()=>{
         setLoginBlock(!isLoginBlock)
