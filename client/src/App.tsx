@@ -1,8 +1,17 @@
+import Home from "./pages/Home"
 import AuthenticatePage from "./pages/AuthenticatePage"
+import NotFound from "./pages/NotFoundPage"
+import { Route,Routes } from "react-router-dom"
+
 
 const App = ()=> {
   return (
-    <AuthenticatePage/>
+    <Routes>
+      <Route path="/"  element={<Home/>} />
+      <Route path="/login"  element={<AuthenticatePage/>} />
+      <Route path="*"  element={<NotFound/>} />
+    </Routes>
+    
   )
 }
 
