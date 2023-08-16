@@ -1,19 +1,20 @@
 package com.wikkie.quickz.Model;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;
 
 @Data
 @Entity
 public class Users {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private Integer id;
+    private String id;
+
+    @NotEmpty
     private String userName;
+    @NotEmpty
     private String userEmail;
+    @NotEmpty
     private String pin;
 }
