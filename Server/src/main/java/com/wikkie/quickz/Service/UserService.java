@@ -6,6 +6,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import com.wikkie.quickz.Dao.UserDao;
 import com.wikkie.quickz.Model.Users;
+
+import jakarta.persistence.EntityNotFoundException;
+
 import java.util.UUID;
 
 @Service
@@ -39,7 +42,9 @@ public class UserService {
         if (userDao.findByUserEmail(users.getUserEmail()) == null) {
             return userDao.save(users);
         } else {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Already register");
+            // throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User already
+            // register");
         }
     }
 }
