@@ -5,6 +5,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import com.wikkie.quickz.Dao.UserDao;
+import com.wikkie.quickz.Exception.ApiExceptionStatus;
+import com.wikkie.quickz.Exception.ApiRequestException;
 import com.wikkie.quickz.Model.Users;
 
 import jakarta.persistence.EntityNotFoundException;
@@ -42,9 +44,7 @@ public class UserService {
         if (userDao.findByUserEmail(users.getUserEmail()) == null) {
             return userDao.save(users);
         } else {
-            throw new ResponseStatusException(HttpStatus.CONFLICT, "Already register");
-            // throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User already
-            // register");
+            throw new ApiRequestException(ApiExceptionStatus.USER_ALREADY_EXIST.toString());
         }
     }
 }
