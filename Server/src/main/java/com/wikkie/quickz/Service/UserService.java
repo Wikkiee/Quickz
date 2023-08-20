@@ -1,5 +1,8 @@
 package com.wikkie.quickz.Service;
 
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.wikkie.quickz.Dao.UserDao;
@@ -17,27 +20,33 @@ public class UserService {
         this.userDao = userDao;
     }
 
-    public String getUser(Users users) {
+    public ResponseEntity<String> getUser(Users users) {
         Users res = userDao.findByUserEmail(users.getUserEmail());
         System.out.println(res);
+        HttpHeaders httpHeaders = new HttpHeaders();
+
         if (userDao.findByUserEmail(users.getUserEmail()) != null) {
             if (new BCryptPasswordEncoder().matches(users.getPin(), res.getPin())) {
-                System.out.println("Pass matched");
+
+                httpHeaders.add("LOGIN", "SUCCESS");
+                return new ResponseEntity<String>("Logged In Successfully", httpHeaders, HttpStatus.OK);
             } else {
-                System.out.println("Password incorrect");
+                httpHeaders.add("LOGIN", "FAILED");
+                return new ResponseEntity<String>("Invalid credentials", httpHeaders, HttpStatus.BAD_GATEWAY);
             }
         } else {
-            System.out.println("User not found");
+            httpHeaders.add("LOGIN", "FAILED");
+            return new ResponseEntity<String>("Internal Server Error", httpHeaders, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        return "User";
+
     }
 
-    public Users saveUser(Users users) {
+    public String saveUser(Users users) {
         users.setId(UUID.randomUUID().toString());
         users.setPin(new BCryptPasswordEncoder().encode(users.getPin()));
         System.out.println(userDao.findByUserEmail(users.getUserEmail()));
         if (userDao.findByUserEmail(users.getUserEmail()) == null) {
-            return userDao.save(users);
+            return userDao.save(users).getId();
         } else {
             throw new ApiRequestException(ApiExceptionStatus.USER_ALREADY_EXIST.toString());
         }
