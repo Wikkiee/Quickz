@@ -13,6 +13,7 @@ const Form = ({ isLoginBlock, onClick }: FormProps) => {
     const currentPin = useRef<any>(null)
     const currentConfirmPin = useRef<HTMLInputElement>(null)
     const [isShowEnabled, setShowEnabled] = useState<Boolean>(false)
+    const [isConfirmPinShowEnabled, setConfirmPinShowEnabled] = useState<Boolean>(false)
     const onShowPinToggle = () => {
         setShowEnabled(!isShowEnabled)
     }
@@ -27,9 +28,6 @@ const Form = ({ isLoginBlock, onClick }: FormProps) => {
             console.log(currentUserName.current?.value);
             console.log(currentPin.current?.value);
             console.log(currentConfirmPin.current?.value);
-
-
-
         }
     }
 
@@ -57,7 +55,9 @@ const Form = ({ isLoginBlock, onClick }: FormProps) => {
                     </div>
                     <div className="flex justify-between">
                         <input required={true} ref={currentConfirmPin} className=" w-auto px-[25px] py-[13px] rounded-md text-sm font-light text-[#CC6D3D] text-opacity-[1] bg-[#f8e1d7] placeholder:opacity-[1] placeholder:text-[#CC6D3D] focus:outline-none mb-4" placeholder={"Confirm PIN"} type={isShowEnabled ? "text" : "password"} />
-                        <button type='button' onClick={onShowPinToggle} className={`h-fit px-[8px] py-[13px] rounded-md text-xs text-[#CC6D3D] ${isShowEnabled ? "bg-[#ffb494]" : "bg-[#ffdbcb]"} `}>{isShowEnabled ? "Hide" : "Show"}</button>
+                        <button type='button' onClick={() => {
+                            setConfirmPinShowEnabled(!isConfirmPinShowEnabled)
+                        }} className={`h-fit px-[8px] py-[13px] rounded-md text-xs text-[#CC6D3D] ${isConfirmPinShowEnabled ? "bg-[#ffb494]" : "bg-[#ffdbcb]"} `}>{isConfirmPinShowEnabled ? "Hide" : "Show"}</button>
                     </div>
                 </>
 

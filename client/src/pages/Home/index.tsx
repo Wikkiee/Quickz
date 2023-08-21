@@ -13,13 +13,6 @@ const Home = () => {
         console.log(isAuthenticated);
 
         if (!isAuthenticated) {
-            // (async () => {
-            //     const result = await axios({
-            //         url: "http://localhost:8080",
-            //         method: "GET"
-            //     })
-            //     console.log(result)
-            // })()
             navigator("/login");
         }
     }, [])

@@ -5,13 +5,11 @@ import { useState } from "react"
 
 const AuthenticatePage = () => {
 
-
     const [isLoginBlock, setLoginBlock] = useState<Boolean>(true)
     const loginAndRegisterBlockToggler = () => {
         setLoginBlock(!isLoginBlock)
 
     }
-
 
     return <div className="w-100% h-screen bg-[#FFEAE0] px-10 py-14">
         <div className="w-100% bg-[#F8F8F9] h-[80vh] rounded-md">
