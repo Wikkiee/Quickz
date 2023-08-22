@@ -11,10 +11,9 @@ public class Users {
     @Id
     private String id;
 
-    @NotEmpty
     private String userName;
     @NotEmpty
     private String userEmail;
     @NotEmpty
-    private String pin;
+    private String userPassword;
 }

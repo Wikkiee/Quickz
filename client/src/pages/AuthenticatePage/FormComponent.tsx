@@ -1,4 +1,5 @@
 
+import axios from "axios"
 import Button from "../../components/Button.js"
 import { useRef, useState } from "react"
 
@@ -9,9 +10,10 @@ type FormProps = {
 
 const Form = ({ isLoginBlock, onClick }: FormProps) => {
 
+    const currentUserEmail = useRef<HTMLInputElement>(null)
     const currentUserName = useRef<HTMLInputElement>(null)
-    const currentPin = useRef<any>(null)
-    const currentConfirmPin = useRef<HTMLInputElement>(null)
+    const currentPassword = useRef<HTMLInputElement>(null)
+    const currentConfirmPassword = useRef<HTMLInputElement>(null)
     const [isShowEnabled, setShowEnabled] = useState<Boolean>(false)
     const [isConfirmPinShowEnabled, setConfirmPinShowEnabled] = useState<Boolean>(false)
     const onShowPinToggle = () => {
@@ -21,13 +23,65 @@ const Form = ({ isLoginBlock, onClick }: FormProps) => {
     const onSubmitHandler = (e: React.FormEvent) => {
         e.preventDefault()
         if (isLoginBlock) {
-            console.log(currentUserName.current?.value);
-            console.log(currentPin.current?.value);
+            console.log("Login block");
+            const data = {
+                userEmail: currentUserEmail.current?.value.toString(),
+                userPassword: currentPassword.current?.value.toString()
+            }
+            console.log(data);
 
+            axios({
+                method: "POST",
+                url: "http://localhost:8080/login",
+                data: data,
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            })
+                .then((response) => {
+                    console.log(response);
+
+                })
+                .catch((e) => {
+                    console.log(e);
+
+                })
+                .finally(() => {
+                    console.log("Login completed");
+
+                })
         } else {
-            console.log(currentUserName.current?.value);
-            console.log(currentPin.current?.value);
-            console.log(currentConfirmPin.current?.value);
+            console.log("Register block");
+            if (currentPassword.current?.value != currentConfirmPassword.current?.value) {
+                console.log("Mismatched password");
+            } else {
+                const data = {
+                    userEmail: currentUserEmail.current?.value.toString(),
+                    userName: currentUserName.current?.value.toString(),
+                    userPassword: currentPassword.current?.value
+                }
+                axios({
+                    method: "POST",
+                    url: "http://localhost:8080/register",
+                    data: data,
+                    headers: {
+                        "Content-Type": "application/json"
+                    }
+                })
+                    .then((response) => {
+                        console.log(response);
+
+                    })
+                    .catch((e) => {
+                        console.log(e);
+
+                    })
+                    .finally(() => {
+                        console.log("Registeration completed");
+
+                    })
+
+            }
         }
     }
 
@@ -42,19 +96,20 @@ const Form = ({ isLoginBlock, onClick }: FormProps) => {
 
             {
                 isLoginBlock ? <>
-                    <input required={true} ref={currentUserName} className=" px-[25px] py-[13px] rounded-md text-sm font-light text-[#CC6D3D] text-opacity-[1] bg-[#f8e1d7] placeholder:opacity-[1] placeholder:text-[#CC6D3D] focus:outline-none w-[312px] mb-4 after:content-['hello'] after:ml-0.5 after:text-red-500" placeholder={"Username / User email"} type={"email"} name={"login"} />
+                    <input autoComplete={"off"} required={true} ref={currentUserEmail} className=" px-[25px] py-[13px] rounded-md text-sm font-light text-[#CC6D3D] text-opacity-[1] bg-[#f8e1d7] placeholder:opacity-[1] placeholder:text-[#CC6D3D] focus:outline-none w-[312px] mb-4 after:content-['hello'] after:ml-0.5 after:text-red-500" placeholder={"Username / User email"} type={"email"} name={"login"} />
                     <div className="flex justify-between">
-                        <input required={true} ref={currentPin} className=" w-auto px-[25px] py-[13px] rounded-md text-sm font-light text-[#CC6D3D] text-opacity-[1] bg-[#f8e1d7] placeholder:opacity-[1] placeholder:text-[#CC6D3D] focus:outline-none mb-4" placeholder={"PIN"} type={isShowEnabled ? "text" : "password"} />
+                        <input autoComplete={"off"} required={true} ref={currentPassword} className=" w-auto px-[25px] py-[13px] rounded-md text-sm font-light text-[#CC6D3D] text-opacity-[1] bg-[#f8e1d7] placeholder:opacity-[1] placeholder:text-[#CC6D3D] focus:outline-none mb-4" placeholder={"PIN"} type={isShowEnabled ? "text" : "password"} />
                         <button type='button' onClick={onShowPinToggle} className={`h-fit px-[8px] py-[13px] rounded-md text-xs text-[#CC6D3D] ${isShowEnabled ? "bg-[#ffb494]" : "bg-[#ffdbcb]"} `}>{isShowEnabled ? "Hide" : "Show"}</button>
                     </div>
                 </> : <>
-                    <input required={true} ref={currentUserName} className=" px-[25px] py-[13px] rounded-md text-sm font-light text-[#CC6D3D] text-opacity-[1] bg-[#f8e1d7] placeholder:opacity-[1] placeholder:text-[#CC6D3D] focus:outline-none w-[312px] mb-4 after:content-['hello'] after:ml-0.5 after:text-red-500" placeholder={"Username / User email"} type={"email"} name={"login"} />
+                    <input autoComplete={"off"} required={true} ref={currentUserName} className=" px-[25px] py-[13px] rounded-md text-sm font-light text-[#CC6D3D] text-opacity-[1] bg-[#f8e1d7] placeholder:opacity-[1] placeholder:text-[#CC6D3D] focus:outline-none w-[312px] mb-4 after:content-['hello'] after:ml-0.5 after:text-red-500" placeholder={"Name"} type={"text"} name={"login"} />
+                    <input autoComplete={"off"} required={true} ref={currentUserEmail} className=" px-[25px] py-[13px] rounded-md text-sm font-light text-[#CC6D3D] text-opacity-[1] bg-[#f8e1d7] placeholder:opacity-[1] placeholder:text-[#CC6D3D] focus:outline-none w-[312px] mb-4 after:content-['hello'] after:ml-0.5 after:text-red-500" placeholder={"Email"} type={"email"} name={"login"} />
                     <div className="flex justify-between">
-                        <input required={true} ref={currentPin} className=" w-auto px-[25px] py-[13px] rounded-md text-sm font-light text-[#CC6D3D] text-opacity-[1] bg-[#f8e1d7] placeholder:opacity-[1] placeholder:text-[#CC6D3D] focus:outline-none mb-4" placeholder={"PIN"} type={isShowEnabled ? "text" : "password"} />
+                        <input autoComplete={"off"} required={true} ref={currentPassword} className=" w-auto px-[25px] py-[13px] rounded-md text-sm font-light text-[#CC6D3D] text-opacity-[1] bg-[#f8e1d7] placeholder:opacity-[1] placeholder:text-[#CC6D3D] focus:outline-none mb-4" placeholder={"Password"} type={isShowEnabled ? "text" : "password"} />
                         <button type='button' onClick={onShowPinToggle} className={`h-fit px-[8px] py-[13px] rounded-md text-xs text-[#CC6D3D] ${isShowEnabled ? "bg-[#ffb494]" : "bg-[#ffdbcb]"} `}>{isShowEnabled ? "Hide" : "Show"}</button>
                     </div>
                     <div className="flex justify-between">
-                        <input required={true} ref={currentConfirmPin} className=" w-auto px-[25px] py-[13px] rounded-md text-sm font-light text-[#CC6D3D] text-opacity-[1] bg-[#f8e1d7] placeholder:opacity-[1] placeholder:text-[#CC6D3D] focus:outline-none mb-4" placeholder={"Confirm PIN"} type={isShowEnabled ? "text" : "password"} />
+                        <input autoComplete={"off"} required={true} ref={currentConfirmPassword} className=" w-auto px-[25px] py-[13px] rounded-md text-sm font-light text-[#CC6D3D] text-opacity-[1] bg-[#f8e1d7] placeholder:opacity-[1] placeholder:text-[#CC6D3D] focus:outline-none mb-4" placeholder={"Confirm Password"} type={isConfirmPinShowEnabled ? "text" : "password"} />
                         <button type='button' onClick={() => {
                             setConfirmPinShowEnabled(!isConfirmPinShowEnabled)
                         }} className={`h-fit px-[8px] py-[13px] rounded-md text-xs text-[#CC6D3D] ${isConfirmPinShowEnabled ? "bg-[#ffb494]" : "bg-[#ffdbcb]"} `}>{isConfirmPinShowEnabled ? "Hide" : "Show"}</button>

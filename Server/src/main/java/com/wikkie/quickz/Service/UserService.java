@@ -21,12 +21,14 @@ public class UserService {
     }
 
     public ResponseEntity<String> getUser(Users users) {
-        Users res = userDao.findByUserEmail(users.getUserEmail());
-        System.out.println(res);
+        System.out.println(users.getUserEmail());
+        Users result = userDao.findByUserEmail(users.getUserEmail());
+
+        System.out.println(result);
         HttpHeaders httpHeaders = new HttpHeaders();
 
         if (userDao.findByUserEmail(users.getUserEmail()) != null) {
-            if (new BCryptPasswordEncoder().matches(users.getPin(), res.getPin())) {
+            if (new BCryptPasswordEncoder().matches(users.getUserPassword(), result.getUserPassword())) {
 
                 httpHeaders.add("LOGIN", "SUCCESS");
                 return new ResponseEntity<String>("Logged In Successfully", httpHeaders, HttpStatus.OK);
@@ -43,7 +45,7 @@ public class UserService {
 
     public String saveUser(Users users) {
         users.setId(UUID.randomUUID().toString());
-        users.setPin(new BCryptPasswordEncoder().encode(users.getPin()));
+        users.setUserPassword(new BCryptPasswordEncoder().encode(users.getUserPassword()));
         System.out.println(userDao.findByUserEmail(users.getUserEmail()));
         if (userDao.findByUserEmail(users.getUserEmail()) == null) {
             return userDao.save(users).getId();
