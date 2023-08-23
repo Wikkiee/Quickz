@@ -21,14 +21,13 @@ public class UserService {
     }
 
     public ResponseEntity<String> getUser(Users users) {
-        System.out.println(users.getUserEmail());
-        Users result = userDao.findByUserEmail(users.getUserEmail());
+        Users result = userDao.findByEmail(users.getEmail());
 
         System.out.println(result);
         HttpHeaders httpHeaders = new HttpHeaders();
 
-        if (userDao.findByUserEmail(users.getUserEmail()) != null) {
-            if (new BCryptPasswordEncoder().matches(users.getUserPassword(), result.getUserPassword())) {
+        if (userDao.findByEmail(users.getEmail()) != null) {
+            if (new BCryptPasswordEncoder().matches(users.getPassword(), result.getPassword())) {
 
                 httpHeaders.add("LOGIN", "SUCCESS");
                 return new ResponseEntity<String>("Logged In Successfully", httpHeaders, HttpStatus.OK);
@@ -45,9 +44,9 @@ public class UserService {
 
     public String saveUser(Users users) {
         users.setId(UUID.randomUUID().toString());
-        users.setUserPassword(new BCryptPasswordEncoder().encode(users.getUserPassword()));
-        System.out.println(userDao.findByUserEmail(users.getUserEmail()));
-        if (userDao.findByUserEmail(users.getUserEmail()) == null) {
+        users.setPassword(new BCryptPasswordEncoder().encode(users.getPassword()));
+        System.out.println(userDao.findByEmail(users.getEmail()));
+        if (userDao.findByEmail(users.getEmail()) == null) {
             return userDao.save(users).getId();
         } else {
             throw new ApiRequestException(ApiExceptionStatus.USER_ALREADY_EXIST.toString());
