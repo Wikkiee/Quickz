@@ -42,14 +42,15 @@ public class UserService {
 
     }
 
-    public String saveUser(Users users) {
-        users.setId(UUID.randomUUID().toString());
-        users.setPassword(new BCryptPasswordEncoder().encode(users.getPassword()));
-        System.out.println(userDao.findByEmail(users.getEmail()));
-        if (userDao.findByEmail(users.getEmail()) == null) {
-            return userDao.save(users).getId();
-        } else {
-            throw new ApiRequestException(ApiExceptionStatus.USER_ALREADY_EXIST.toString());
-        }
-    }
+    // public String saveUser(Users users) {
+    // users.setId(UUID.randomUUID());
+    // users.setPassword(new BCryptPasswordEncoder().encode(users.getPassword()));
+    // System.out.println(userDao.findByEmail(users.getEmail()));
+    // if (userDao.findByEmail(users.getEmail()) == null) {
+    // return userDao.save(users).getId();
+    // } else {
+    // throw new
+    // ApiRequestException(ApiExceptionStatus.USER_ALREADY_EXIST.toString());
+    // }
+    // }
 }

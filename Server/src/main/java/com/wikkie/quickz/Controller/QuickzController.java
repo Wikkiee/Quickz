@@ -27,12 +27,13 @@ public class QuickzController {
         return new ResponseEntity<Boolean>(false, httpHeaders, HttpStatus.OK);
     }
 
-    @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody @Valid Users users) {
-        HttpHeaders responseHeader = new HttpHeaders();
-        responseHeader.add("Register", "SUCCESS");
-        return new ResponseEntity<String>(userService.saveUser(users), responseHeader, 200);
-    }
+    // @PostMapping("/register")
+    // public ResponseEntity<String> register(@RequestBody @Valid Users users) {
+    // HttpHeaders responseHeader = new HttpHeaders();
+    // responseHeader.add("Register", "SUCCESS");
+    // // return new ResponseEntity<String>(userService.saveUser(users),
+    // responseHeader, 200);
+    // }
 
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody @Valid Users users) {
