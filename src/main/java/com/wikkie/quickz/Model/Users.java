@@ -30,8 +30,7 @@ public class Users implements UserDetails {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Integer id;
 
-    private String firstname;
-    private String lastname;
+    private String userName;
     @NotEmpty
     private String email;
     @NotEmpty
