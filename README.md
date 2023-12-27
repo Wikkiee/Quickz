@@ -1,5 +1,14 @@
-# QuizkAuth Spring-Boot REST API
-![License](https://img.shields.io/badge/License-MIT-blue.svg)
+<div align="center">
+  <p>
+      <img width="30%" src="https://i.imgur.com/pEESyTQ.png">
+  </p>
+  <br/>
+  
+  # QuizkAuth Spring-Boot REST API
+  ![License](https://img.shields.io/badge/License-MIT-blue.svg)
+</div>
+
+
 
 ## Table of Contents
 
