@@ -1,4 +1,4 @@
-package com.wikkie.quickz.Demo;
+package com.wikkie.quickz.AuthCheck;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

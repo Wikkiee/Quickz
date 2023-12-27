@@ -6,10 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.wikkie.quickz.Dao.UserDao;
-import com.wikkie.quickz.Exception.ApiExceptionStatus;
-import com.wikkie.quickz.Exception.ApiRequestException;
 import com.wikkie.quickz.Model.Users;
-import java.util.UUID;
 
 @Service
 public class UserService {
@@ -42,15 +39,4 @@ public class UserService {
 
     }
 
-    // public String saveUser(Users users) {
-    // users.setId(UUID.randomUUID());
-    // users.setPassword(new BCryptPasswordEncoder().encode(users.getPassword()));
-    // System.out.println(userDao.findByEmail(users.getEmail()));
-    // if (userDao.findByEmail(users.getEmail()) == null) {
-    // return userDao.save(users).getId();
-    // } else {
-    // throw new
-    // ApiRequestException(ApiExceptionStatus.USER_ALREADY_EXIST.toString());
-    // }
-    // }
 }
